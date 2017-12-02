@@ -13,6 +13,7 @@ canvas {
 <script>
 
 var myGamePiece;
+var playerAngle = Math.atan2(myGamePiece.mousey - myGamePiece.y, myGamePiece.mousex - myGamePiece.x);
 
 function startGame() {
     myGameArea.start();
@@ -33,6 +34,10 @@ var myGameArea = {
         window.addEventListener('keyup', function (e) {
             myGameArea.key = false;
         })
+        window.addEventListener('mousemove', function (e) {
+            myGameArea.mousex = e.pageX;
+            myGameArea.mousey = e.pageY;
+        }) 
     }, 
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -46,12 +51,19 @@ function component(width, height, color, x, y) {
     this.speedX = 0;
     this.speedY = 0;    
     this.x = x;
-    this.y = y;    
+    this.y = y;
+    this.angle = 0;
     this.update = function() {
         ctx = myGameArea.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
+        ctx.save();
+        ctx.translate(this.x, this.y); 
+        ctx.rotate(this.angle);
+        ctx.fillStyle = color;
+        ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height); 
+        ctx.restore(); 
     this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY;        
@@ -66,6 +78,7 @@ function updateGameArea() {
     if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 5; }
     if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -5; }
     if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 5; }
+    myGamePiece.angle += playerAngle;
     myGamePiece.newPos();    
     myGamePiece.update();
 }
