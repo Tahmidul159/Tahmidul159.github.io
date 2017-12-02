@@ -1,38 +1,75 @@
 <!DOCTYPE html>
 <html>
-  <head>
-   <title> Alien Life is Very Possible </title> 
-  
-  <Style>
-    body {background-color:#8900f9;}
-  </style>
-  </head>
-  <body>
-   <center>
-    <h1><u> ALIENS ARE REAL!! </u></h1>
-   </center>  
-    <h3> Are aliens real, or is it even possible that aliens exist? Some people say that aliens do exist while others just believe in a possibility. The haters say that aliens don't exist and there is no chance that they do. The everlasting question is still debated on today and will probably stay unanswerd. Or maybe not...
-    There is lots of evidence that proves that alien existence is possible.</h3>
-   
-    <h2> <u> Reasons why Aliens Exist </u> </h2>
-    <p><b> 3There are many crucial peices of evidence that shows that alien existence, although not probable, is possible. Some of these reasons are:</b><p> 
-    <ol><b>
-      <li>Countless Sightings</li>
-      <li>Findings</li>
-      <li>Probability</li>
-    </b></ol>
-    
-  <h3><u> Countless Sightings </u></h3>
-  <p><b> There are a number of possible alien sightings. These sightings are from all around the world and stand to prove that alien existence is possible. Some of these sightings are pictured bellow.</b></p>
-  <img src=http://www.ufosightingstoday.org/wp-content/uploads/2017/06/Top-UFO-alien-sightings-on-the-moon.jpg height= 300 width= 450>
-  <p><b> There have also been sightings of Unidentified Flying Objects, or UFOs. These UFOs are theorized to be chosen mode of transportation for aliens. One image of a sighting is displayed below.</b></p>  
- <figure>
-    <img src=https://2.bp.blogspot.com/-aJJY4TvQSic/WhEA6sru1vI/AAAAAAAAzxo/05poAL66UAo62Xi5Rps66acUUmytIESqACLcBGAs/s1600/UK%252C%2Bunited%2Bkingdom%252C%2BEngland%252C%2Bfarm%252C%2Btrees%252C%2Bdisk%252C%2BUFO%252C%2Balien%252C%2Bmars%252C%2Bnews%252C%2BAI%2Bfind%2Bthis%2Bevidence%252C%2BUFOs%252C%2Bsightings%252C%2Bmedia%252C%2Bsecret%252C%2Barea%2B51%252C%2Bsurface%252C%2Bbuildings%252C%2Bstructures%252C%2Bfaces%252C%2Bstatues%252C%2Bskull%252C2.jpg height=300 width=450>
-    <figcaption> A picture taken from the backyard of a man in England</figcaption>
- </figure> 
-    <h3>These sighitngs prove that not only is alien life possible but they do exist and they have alreaady visited Earth</h3>
-   </body>
-    
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
 
-  
-<html>
+var myGamePiece;
+
+function startGame() {
+    myGameArea.start();
+    myGamePiece = new component(30, 30, "red", 10, 120);
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);
+        window.addEventListener('keydown', function (e) {
+            myGameArea.key = e.keyCode;
+        })
+        window.addEventListener('keyup', function (e) {
+            myGameArea.key = false;
+        })
+    }, 
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(width, height, color, x, y) {
+    this.gamearea = myGameArea;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;        
+    }
+}
+
+function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.speedX = 0;
+    myGamePiece.speedY = 0;    
+    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -5; }
+    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 5; }
+    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -5; }
+    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 5; }
+    myGamePiece.newPos();    
+    myGamePiece.update();
+}
+</script>
+<p>Make sure this window has focus, then you can use the arrow keys on you keyboard to move the red square.</p>
+</body>
+</html>
